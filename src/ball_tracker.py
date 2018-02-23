@@ -29,7 +29,11 @@ class ball_tracking:
 
         # Color filter for orange ping pong ball
         lower = np.array([10,130,130])
-        upper = np.array([65,255,255])
+        upper = np.array([100,255,255]) # 65 for darker lighting
+
+        # Color filter for black platform
+        #lower = np.array([0,0,0])
+        #upper = np.array([255,255,65])
 
         hsv = cv2.cvtColor(cv_image, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, lower, upper)
