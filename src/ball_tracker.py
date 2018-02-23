@@ -39,8 +39,8 @@ class ball_tracking:
         mask = cv2.inRange(hsv, lower, upper)
         res = cv2.bitwise_and(cv_image,cv_image, mask=mask) 
 
-        erode = cv2.erode(mask, None, iterations=2)
-        dilate = cv2.dilate(erode, None, iterations=2)
+        #erode = cv2.erode(mask, None, iterations=2)
+        #dilate = cv2.dilate(erode, None, iterations=2)
         _, contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         x_max = 0
