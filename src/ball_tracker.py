@@ -32,11 +32,11 @@ class ball_tracking:
 
 
         platform_img = self.perspective_image(cv_image)
+        self.ball_locator(platform_img)
 
 
 
-
-    def ball_locator(self, thing):
+    def ball_locator(self, platform_img):
         ######
         # Blob Tracker, color based
         ######
@@ -51,7 +51,7 @@ class ball_tracking:
 
         hsv = cv2.cvtColor(platform_img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, lower, upper)
-        res = cv2.bitwise_and(cv_image,cv_image, mask=mask)
+        # res = cv2.bitwise_and(cv_image,cv_image, mask=mask)
 
         #erode = cv2.erode(mask, None, iterations=2)
         #dilate = cv2.dilate(erode, None, iterations=2)
@@ -88,11 +88,11 @@ class ball_tracking:
         self.x = x_max
         self.y = y_max
 
-        cv2.circle(cv_image, (int(self.x), int(self.y)), 6, [255,255,255], -1)
+        cv2.circle(platform_img, (int(self.x), int(self.y)), 5, [255,255,255], -1)
 
-        #cv2.imshow("Image window", cv_image)
-        #cv2.imshow("color separate",res)
-        #cv2.waitKey(1)
+        cv2.imshow("Image window", platform_img)
+        cv2.imshow("color separate",mask)
+        cv2.waitKey(1)
 
 
 
