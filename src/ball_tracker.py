@@ -5,6 +5,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import numpy as np
+from geometry_msgs.msg import Point
 
 class ball_tracking:
 
@@ -22,7 +23,9 @@ class ball_tracking:
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]], \
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]
 
-        self.start_time = rospy.Time.now()
+        self.img_size = 300
+        self.brd_size = .25
+        self.pub = rospy.Publisher('/ball_position', Point, queue_size=1)
 
     def image_callback(self, data):
         try:
@@ -33,6 +36,11 @@ class ball_tracking:
 
         platform_img = self.perspective_image(cv_image)
         self.ball_locator(platform_img)
+        newpt = Point()
+        newpt.x = (self.x / self.img_size) * self.brd_size
+        newpt.y = (self.y / self.img_size) * self.brd_size
+        newpt.z = 0
+        self.pub.publish(newpt)
 
 
 
@@ -124,9 +132,9 @@ class ball_tracking:
 
             # This takes the corner_filter and reprojects the image
             pts1 = np.float32([self.corners[0],self.corners[1],self.corners[2],self.corners[3]])
-            pts2 = np.float32([[0,300],[300,300],[300,0],[0,0]])
+            pts2 = np.float32([[0,self.img_size],[self.img_size,self.img_size],[self.img_size,0],[0,0]])
             M = cv2.getPerspectiveTransform(pts1,pts2)
-            dst = cv2.warpPerspective(img,M,(300,300))
+            dst = cv2.warpPerspective(img,M,(self.img_size,self.img_size))
             #cv2.imshow("Image source",img)
 
             cv2.circle(img,(self.corners[0][0],self.corners[0][1]),5,[255,255,255],-1)
