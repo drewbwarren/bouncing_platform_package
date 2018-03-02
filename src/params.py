@@ -29,8 +29,8 @@ tr = .2
 zeta = .707
 wn = 2.2/tr
 
-kp = .8 #(wn**2)/g
-kd = .2 #(2*zeta*wn)/g
+kp = 0.1 #.8 #(wn**2)/g
+kd = 0.05 #.2 #(2*zeta*wn)/g
 
 # Dirty Derivative Parameters
 sigma = 0.05  # cutoff freq for dirty derivative

@@ -11,7 +11,7 @@ class platformController:
         self.xCtrl = PIDControl(P.kp, P.kd, P.theta_max, P.beta, P.Ts)
         self.yCtrl = PIDControl(P.kp, P.kd, P.phi_max, P.beta, P.Ts)
         self.sub = rospy.Subscriber('ball_position', Point, self.position_callback)
-        self.ctrl_pub = rospy.Publisher('/controls', Platform_controls, queue_size=1)
+        self.ctrl_pub = rospy.Publisher('/controls', Point, queue_size=1)
         self.ref_sub = rospy.Subscriber('reference_position', Point, self.ref_callback)
 
     def u(self, ref, state):
@@ -37,12 +37,20 @@ class platformController:
         ref = [0,0]
 
         ctrls = self.u(ref,state)
+        
+        msg = Point()
+        msg.x = ctrls[0]
+        msg.y = ctrls[1]
+        msg.z = 0
 
-        self.ctrl_pub.publish(ctrls[0],ctrls[1])
+        self.ctrl_pub.publish(msg)
 
     def ref_callback(self,ref):
         self.refx = ref.x
         self.refy = ref.y
+        ######### Change this once a reference is defined
+        self.refx = 0.0
+        self.refy = 0.0
 
 
 if __name__ == '__main__':
