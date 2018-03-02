@@ -34,6 +34,7 @@ class platformController:
         y = pt.y
         state = [x,y]
 
+        ######### Change this once a reference is defined
         ref = [0,0]
 
         ctrls = self.u(ref,state)
@@ -48,9 +49,6 @@ class platformController:
     def ref_callback(self,ref):
         self.refx = ref.x
         self.refy = ref.y
-        ######### Change this once a reference is defined
-        self.refx = 0.0
-        self.refy = 0.0
 
 
 if __name__ == '__main__':

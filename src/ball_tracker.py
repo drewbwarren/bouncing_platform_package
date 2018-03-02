@@ -107,8 +107,14 @@ class ball_tracking:
     def perspective_image(self, img):
 
         # Color filter for the black platform
+        # Good lighting
         lower = np.array([100,int(10*255/100.0),int(5*255/100.0)])
         upper = np.array([255,int(35*255/100.0),int(60*255/100.0)])
+        
+        # Darker lighting
+        lower = np.array([50,int(0*255/100.0),int(0*255/100.0)])
+        upper = np.array([255,int(30*255/100.0),int(40*255/100.0)])
+        
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv,lower,upper)
         cv2.imshow("mask",mask)

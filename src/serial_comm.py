@@ -11,13 +11,15 @@ class serial_link:
     def __init__(self):
         self.ser = serial.Serial('/dev/ttyACM0',9600,timeout=10)
         self.sub = rospy.Subscriber('controls',Point,self.control_callback)
-
+        self.timer = rospy.Timer(rospy.Duration(.1),self.timercb)
 
     def control_callback(self, ctrl):
-        theta = ctrl.x
-        phi = ctrl.y
-        self.ser.write(str(self.truncate(theta,7)) + '\n')
-        self.ser.write(str(self.truncate(phi,7)) + '\n')
+        self.theta = ctrl.x
+        self.phi = ctrl.y
+        
+    def timercb(self,event):
+        self.ser.write('<' +  str(self.truncate(self.theta,5)) + 't')
+        self.ser.write('<' +  str(self.truncate(self.phi,5)) + 'p')
         #rospy.loginfo(str(theta))
 
     def truncate(self, f, n):
