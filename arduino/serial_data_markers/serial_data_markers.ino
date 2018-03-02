@@ -124,7 +124,9 @@ void kinematics()
 //    Serial.print(theta_a[i]);
 //    Serial.print("\t");
 //    Serial.println(servo_pos[0]);
+//    Serial.println(pe[3],DEC);
     servo[i].writeMicroseconds(servo_pos[i]);
+    
 //    servo[i].writeMicroseconds(1500);
   }
 }
@@ -163,8 +165,12 @@ void recvWithStartEndMarkers() {
                 ndx = 0;
                 newData = true;
 
-                if (rc == 't') { pe[3] = atof(receivedChars); }
-                if (rc == 'p') { pe[4] = atof(receivedChars); }
+                float temp = atof(receivedChars);
+                if (temp != 0.0)
+                {
+                  if (rc == 't') { pe[3] = temp; }
+                  if (rc == 'p') { pe[4] = temp; }
+                }
             }
         }
 
@@ -180,7 +186,7 @@ void showNewData() {
 //        Serial.println(data,DEC);
 //        Serial.println(receivedChars);
         Serial.println(pe[3],DEC);
-        Serial.println(pe[4],DEC);
+//        Serial.println(pe[4],DEC);
         newData = false;
     }
 }
