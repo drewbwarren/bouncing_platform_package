@@ -4,6 +4,7 @@ import params as P
 from PIDcontroller import PIDControl
 from geometry_msgs.msg import Point
 import rospy
+from stewart_platform.msg import Reference_Pos
 
 class platformController:
 
@@ -12,7 +13,10 @@ class platformController:
         self.yCtrl = PIDControl(P.kp, P.kd, P.phi_max, P.beta, P.Ts)
         self.sub = rospy.Subscriber('ball_position', Point, self.position_callback)
         self.ctrl_pub = rospy.Publisher('/controls', Point, queue_size=1)
-        self.ref_sub = rospy.Subscriber('reference_position', Point, self.ref_callback)
+        self.ref_sub = rospy.Subscriber('reference_position', Reference_Pos, self.ref_callback)
+        self.refx = 0
+        self.refy = 0
+
 
     def u(self, ref, state):
         # ref is the input
@@ -35,7 +39,8 @@ class platformController:
         state = [x,y]
 
         ######### Change this once a reference is defined
-        ref = [0,0]
+        #ref = [0,0]
+        ref = [self.refx,self.refy]
 
         ctrls = self.u(ref,state)
         

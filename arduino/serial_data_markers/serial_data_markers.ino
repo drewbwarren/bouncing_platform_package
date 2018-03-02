@@ -185,8 +185,8 @@ void showNewData() {
 //        Serial.print("This just in ... ");
 //        Serial.println(data,DEC);
 //        Serial.println(receivedChars);
-        Serial.println(pe[3],DEC);
-//        Serial.println(pe[4],DEC);
+        Serial.println(pe[4],DEC);
+//        Serial.println(pe[3],DEC);
         newData = false;
     }
 }

@@ -138,7 +138,7 @@ class ball_tracking:
 
             # This takes the corner_filter and reprojects the image
             pts1 = np.float32([self.corners[0],self.corners[1],self.corners[2],self.corners[3]])
-            pts2 = np.float32([[0,self.img_size],[self.img_size,self.img_size],[self.img_size,0],[0,0]])
+            pts2 = np.float32([[0,0],[0,self.img_size],[self.img_size,self.img_size],[self.img_size,0]])
             M = cv2.getPerspectiveTransform(pts1,pts2)
             dst = cv2.warpPerspective(img,M,(self.img_size,self.img_size))
             #cv2.imshow("Image source",img)
