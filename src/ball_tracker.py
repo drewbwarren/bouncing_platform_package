@@ -98,7 +98,7 @@ class ball_tracking:
 
         cv2.circle(platform_img, (int(self.x), int(self.y)), 5, [255,255,255], -1)
 
-        cv2.imshow("Image window", platform_img)
+        #cv2.imshow("Image window", platform_img)
         #cv2.imshow("color separate",mask)
         cv2.waitKey(1)
 
@@ -108,16 +108,16 @@ class ball_tracking:
 
         # Color filter for the black platform
         # Good lighting
-        lower = np.array([100,int(10*255/100.0),int(5*255/100.0)])
+        lower = np.array([100,int(5*255/100.0),int(5*255/100.0)])
         upper = np.array([255,int(35*255/100.0),int(60*255/100.0)])
         
         # Darker lighting
-        lower = np.array([50,int(0*255/100.0),int(0*255/100.0)])
-        upper = np.array([255,int(30*255/100.0),int(40*255/100.0)])
+        #lower = np.array([50,int(0*255/100.0),int(0*255/100.0)])
+        #upper = np.array([255,int(30*255/100.0),int(40*255/100.0)])
         
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv,lower,upper)
-        cv2.imshow("mask",mask)
+        #cv2.imshow("mask",mask)
         # cv2.waitKey(1)
         _, contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -147,7 +147,7 @@ class ball_tracking:
             cv2.circle(img,(self.corners[1][0],self.corners[1][1]),5,[0,255,255],-1)
             cv2.circle(img,(self.corners[2][0],self.corners[2][1]),5,[255,0,255],-1)
             cv2.circle(img,(self.corners[3][0],self.corners[3][1]),5,[255,255,0],-1)
-            cv2.imshow("Source", img)
+            #cv2.imshow("Source", img)
             #cv2.imshow("Projection",dst)
             cv2.waitKey(1)
 

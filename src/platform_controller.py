@@ -30,7 +30,7 @@ class platformController:
         theta = self.xCtrl.PD(x_r, x, flag=False)
         phi = self.yCtrl.PD(y_r, y, flag=False)
 
-        return [theta, phi]
+        return [theta, -phi]
 
     def position_callback(self, pt):
 
@@ -39,8 +39,8 @@ class platformController:
         state = [x,y]
 
         ######### Change this once a reference is defined
-        #ref = [0,0]
-        ref = [self.refx,self.refy]
+        ref = [0,0]
+        #ref = [self.refx,self.refy]
 
         ctrls = self.u(ref,state)
         

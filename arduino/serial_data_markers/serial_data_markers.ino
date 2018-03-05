@@ -168,8 +168,8 @@ void recvWithStartEndMarkers() {
                 float temp = atof(receivedChars);
                 if (temp != 0.0)
                 {
-                  if (rc == 't') { pe[3] = temp; }
-                  if (rc == 'p') { pe[4] = temp; }
+                  if (rc == 't') { pe[4] = temp; }
+                  if (rc == 'p') { pe[3] = temp; }
                 }
             }
         }
@@ -185,7 +185,7 @@ void showNewData() {
 //        Serial.print("This just in ... ");
 //        Serial.println(data,DEC);
 //        Serial.println(receivedChars);
-        Serial.println(pe[4],DEC);
+//        Serial.println(pe[4],DEC);
 //        Serial.println(pe[3],DEC);
         newData = false;
     }

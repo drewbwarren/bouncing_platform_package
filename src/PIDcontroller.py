@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import numpy as np
+import rospy
 
 class PIDControl:
     def __init__(self, kp, kd, limit, beta, Ts):
@@ -13,7 +14,7 @@ class PIDControl:
         self.y_d1 = 0.0              # Signal y delayed by one sample
         self.error_dot = 0.0          # estimated derivative of error
         self.error_d1 = 0.0          # Error delayed by one sample
-
+        self.base_time = rospy.Time.now()
 
     def PD(self, y_r, y, flag=True):
         '''
@@ -26,6 +27,9 @@ class PIDControl:
 
             error_dot and y_dot are computed numerically using a dirty derivative
         '''
+
+        self.Ts = (rospy.Time.now() - self.base_time).to_sec()
+        self.beta = (2*0.05 - self.Ts)/(2*0.05 + self.Ts)
 
         # Compute the current error
         error = y_r - y
