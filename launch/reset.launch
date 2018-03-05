@@ -1,0 +1,5 @@
+<launch>
+
+    <node name="reset_platform" pkg="stewart_platform" type="reset.py" />
+
+</launch>
