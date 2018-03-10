@@ -29,8 +29,14 @@ tr = .2
 zeta = .707
 wn = 2.2/tr
 
-kp = 0.6 #.8 #(wn**2)/g
-kd = 1 #.2 #(2*zeta*wn)/g
+# ping pong ball
+#kp = 0.6 #.8 #(wn**2)/g
+#kd = 1 #.2 #(2*zeta*wn)/g
+
+# nylon ball
+kp = 0.4
+kd = 1.2
+
 
 # Dirty Derivative Parameters
 sigma = 0.05  # cutoff freq for dirty derivative
