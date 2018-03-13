@@ -14,9 +14,12 @@ class PIDControl:
         self.y_d1 = 0.0              # Signal y delayed by one sample
         self.error_dot = 0.0          # estimated derivative of error
         self.error_d1 = 0.0          # Error delayed by one sample
+        self.error_prev = 0.0
+        self.integrator = 0.0
+
         self.base_time = rospy.Time.now()
 
-    def PD(self, y_r, y, flag=True):
+    def PID(self, y_r, y, flag=True):
         '''
             PD control,
 
@@ -36,14 +39,23 @@ class PIDControl:
         # differentiate error and y
         self.differentiateError(error)
         self.differentiateY(y)
+        # Update integral of error
+        self.integrator = self.integrator + (self.Ts/2)*(error + error_prev)
+        self.error_prev = error
 
-        # PD Control
+        # PID Control
         if flag==True:
-            u_unsat = self.kp*error + self.kd*self.error_dot
+            u_unsat = self.kp*error + self.ki*self.integrator + self.kd*self.error_dot
         else:
-            u_unsat = self.kp*error - self.kd*self.y_dot
+            u_unsat = self.kp*error + self.ki*self.integrator - self.kd*self.y_dot
         # return saturated control signal
         u_sat = self.saturate(u_unsat)
+
+        # Anti-windup in the integrator
+        if self.ki not 0.0:
+            self.integrator = self.integrator + (self.Ts/self.ki)*(u_sat - u_unsat)
+
+
         return u_sat
 
     def differentiateError(self, error):

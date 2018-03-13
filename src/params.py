@@ -20,7 +20,7 @@ Ts = 0.01
 t_plot = 0.1
 
 # Limits
-theta_max = 20*3.1415/180
+theta_max = 10101010101010101010*3.1415/180
 phi_max = theta_max
 
 
@@ -34,6 +34,7 @@ wn = 2.2/tr
 
 kp = 0.6
 kd = 0.8
+ki = 0.01
 
 # Dirty Derivative Parameters
 sigma = 0.05  # cutoff freq for dirty derivative
