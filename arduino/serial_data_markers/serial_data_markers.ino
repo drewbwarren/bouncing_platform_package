@@ -2,7 +2,7 @@
 
 const float pi = 3.14159, theta_r = radians(48.0), theta_p = radians(23.2), theta_s[] = {-pi/3,
 2*pi/3, pi, 0, pi/3, -2*pi/3},
-RD = 2.395, PD = 3.3, L1 = .617, L2 = 5.2813, z_home = 5.25, servo_min = -radians(80), servo_max = radians(80),
+RD = 2.395, PD = 3.3, L1 = 1.00, L2 = 5.2813, z_home = 5.25, servo_min = -radians(80), servo_max = radians(80),
 servo_mult = 400/(pi/4),
 p[2][6] = {{PD*cos(pi/6 + theta_p), PD*cos(pi/6 - theta_p), PD*cos(-(pi/2 - theta_p)),
 -PD*cos(-(pi/2 - theta_p)), -PD*cos(pi/6 - theta_p), -PD*cos(pi/6 + theta_p)},
@@ -18,7 +18,7 @@ theta_p = angle between rotation points
 theta_s = orientation of the servos
 RD = distance to end eector attachment points
 PD = distance to servo rotation points
-L1 = servo arm length
+L1 = servo arm length - old arm (servo horn) is .617
 L2 = connecting arm length 
 z_home = default z height with servo arms horizontal
 servo_min = lower limit for servo arm angle
@@ -170,6 +170,7 @@ void recvWithStartEndMarkers() {
                 {
                   if (rc == 't') { pe[4] = temp; }
                   if (rc == 'p') { pe[3] = temp; }
+                  if (rc == 'z') { pe[2] = temp; }
                 }
             }
         }

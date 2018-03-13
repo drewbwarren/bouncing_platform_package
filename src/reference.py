@@ -21,7 +21,7 @@ class signalGenerator:
     def timercb(self,event):
         self.square()
         ref = Reference_Pos()
-        ref.x = 0.0 #self.out
+        ref.x = 0 #self.out
         ref.y = 0
         self.pub.publish(ref)
 

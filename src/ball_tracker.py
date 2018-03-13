@@ -52,6 +52,11 @@ class ball_tracking:
         # Color filter for orange ping pong ball
         lower = np.array([10,130,130])
         upper = np.array([100,255,255]) # 65 for darker lighting
+        upper = np.array([30,255,255])
+
+        # Color filter for white ball
+        #lower = np.array([50,0,int(80*255/100.0)])
+        #upper = np.array([200,int(15*255/100.0),255])
 
         # Color filter for black platform
         #lower = np.array([0,0,0])
@@ -98,8 +103,8 @@ class ball_tracking:
 
         cv2.circle(platform_img, (int(self.x), int(self.y)), 5, [255,255,255], -1)
 
-        #cv2.imshow("Image window", platform_img)
-        #cv2.imshow("color separate",mask)
+        cv2.imshow("Image window", platform_img)
+        cv2.imshow("color separate",mask)
         cv2.waitKey(1)
 
 
@@ -115,9 +120,13 @@ class ball_tracking:
         #lower = np.array([50,int(0*255/100.0),int(0*255/100.0)])
         #upper = np.array([255,int(30*255/100.0),int(40*255/100.0)])
         
+        # Color filter for the green edge platform
+        lower = np.array([50,int(25*255/100.0),int(45*255/100.0)])
+        upper = np.array([100,int(50*255/100.0),int(65*255/100.0)])
+
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv,lower,upper)
-        #cv2.imshow("mask",mask)
+        cv2.imshow("mask",mask)
         # cv2.waitKey(1)
         _, contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -147,7 +156,7 @@ class ball_tracking:
             cv2.circle(img,(self.corners[1][0],self.corners[1][1]),5,[0,255,255],-1)
             cv2.circle(img,(self.corners[2][0],self.corners[2][1]),5,[255,0,255],-1)
             cv2.circle(img,(self.corners[3][0],self.corners[3][1]),5,[255,255,0],-1)
-            #cv2.imshow("Source", img)
+            cv2.imshow("Source", img)
             #cv2.imshow("Projection",dst)
             cv2.waitKey(1)
 
