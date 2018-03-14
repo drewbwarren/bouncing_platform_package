@@ -20,7 +20,7 @@ Ts = 0.01
 t_plot = 0.1
 
 # Limits
-theta_max = 10101010101010101010*3.1415/180
+theta_max = 10*3.1415/180
 phi_max = theta_max
 
 

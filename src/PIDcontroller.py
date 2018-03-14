@@ -3,9 +3,10 @@ import numpy as np
 import rospy
 
 class PIDControl:
-    def __init__(self, kp, kd, limit, beta, Ts):
+    def __init__(self, kp, kd, ki, limit, beta, Ts):
         self.kp = kp                 # Proportional control gain
         self.kd = kd                 # Derivative control gain
+        self.ki = ki
         self.limit = limit           # The output will saturate at this limit
         self.beta = beta             # gain for dirty derivative
         self.Ts = Ts                 # sample rate
@@ -14,10 +15,9 @@ class PIDControl:
         self.y_d1 = 0.0              # Signal y delayed by one sample
         self.error_dot = 0.0          # estimated derivative of error
         self.error_d1 = 0.0          # Error delayed by one sample
-        self.error_prev = 0.0
         self.integrator = 0.0
 
-        self.base_time = rospy.Time.now()
+        self.time_prev = rospy.Time.now()
 
     def PID(self, y_r, y, flag=True):
         '''
@@ -31,8 +31,10 @@ class PIDControl:
             error_dot and y_dot are computed numerically using a dirty derivative
         '''
 
-        self.Ts = (rospy.Time.now() - self.base_time).to_sec()
-        self.beta = (2*0.05 - self.Ts)/(2*0.05 + self.Ts)
+        t = rospy.Time.now()
+        self.Ts = (t - self.time_prev).to_sec()
+        self.beta = (2*0.15 - self.Ts)/(2*0.15 + self.Ts)
+        self.time_prev = t
 
         # Compute the current error
         error = y_r - y
@@ -40,8 +42,8 @@ class PIDControl:
         self.differentiateError(error)
         self.differentiateY(y)
         # Update integral of error
-        self.integrator = self.integrator + (self.Ts/2)*(error + error_prev)
-        self.error_prev = error
+        self.integrate(error)
+        
 
         # PID Control
         if flag==True:
@@ -52,10 +54,9 @@ class PIDControl:
         u_sat = self.saturate(u_unsat)
 
         # Anti-windup in the integrator
-        if self.ki not 0.0:
-            self.integrator = self.integrator + (self.Ts/self.ki)*(u_sat - u_unsat)
+        self.integratorAntiWindup(u_sat,u_unsat)
 
-
+        
         return u_sat
 
     def differentiateError(self, error):
@@ -71,6 +72,13 @@ class PIDControl:
         '''
         self.y_dot = self.beta*self.y_dot + (1-self.beta)*((y - self.y_d1) / self.Ts)
         self.y_d1 = y
+    
+    def integrate(self, error):
+        self.integrator = self.integrator + (self.Ts/2)*(error + self.error_d1)
+    
+    def integratorAntiWindup(self, u_sat, u_unsat):
+        if self.ki != 0.0:
+            self.integrator = self.integrator + 0.5*(self.Ts/self.ki)*(u_sat - u_unsat)
 
     def saturate(self,u):
         if abs(u) > self.limit:

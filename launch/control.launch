@@ -8,7 +8,7 @@
 
     <node name="ball_position" pkg="stewart_platform" type="ball_tracker.py" />
 
-    <node name="controller" pkg="stewart_platform" type="platform_controller.py" />
+    <node name="controller" pkg="stewart_platform" type="platform_controller.py" output="screen" />
 
     <node name="reference" pkg="stewart_platform" type="reference.py" />
 

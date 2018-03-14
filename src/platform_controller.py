@@ -9,8 +9,8 @@ from stewart_platform.msg import Reference_Pos
 class platformController:
 
     def __init__(self):
-        self.xCtrl = PIDControl(P.kp, P.kd, P.theta_max, P.beta, P.Ts)
-        self.yCtrl = PIDControl(P.kp, P.kd, P.phi_max, P.beta, P.Ts)
+        self.xCtrl = PIDControl(P.kp, P.kd, P.ki, P.theta_max, P.beta, P.Ts)
+        self.yCtrl = PIDControl(P.kp, P.kd, P.ki, P.phi_max, P.beta, P.Ts)
         self.sub = rospy.Subscriber('ball_position', Point, self.position_callback)
         self.ctrl_pub = rospy.Publisher('/controls', Point, queue_size=1)
         self.ref_sub = rospy.Subscriber('reference_position', Reference_Pos, self.ref_callback)
@@ -27,8 +27,8 @@ class platformController:
         y_r = ref[1]
         y = state[1]
 
-        theta = self.xCtrl.PD(x_r, x, flag=False)
-        phi = self.yCtrl.PD(y_r, y, flag=False)
+        theta = self.xCtrl.PID(x_r, x, flag=False)
+        phi = self.yCtrl.PID(y_r, y, flag=False)
 
         return [theta, -phi]
 
