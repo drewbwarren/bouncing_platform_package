@@ -2,9 +2,9 @@
 
 <robot name="usb_cam" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <link name="base"/>
-    <link name="usb_cam"/>
+    <link name="usb_cam_thing"/>
     <joint name="optical_frame_to_base" type="fixed">
         <parent link="base"/>
-        <child link="usb_cam"/>
+        <child link="usb_cam_thing"/>
     </joint>
 </robot>
