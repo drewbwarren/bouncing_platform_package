@@ -11,12 +11,15 @@ class PIDControl:
         self.limit = limit           # The output will saturate at this limit
         self.beta = beta             # gain for dirty derivative
         self.Ts = Ts                 # sample rate
+        self.g = 9.81
 
         self.y_dot = 0.0              # estimated derivative of y
         self.y_d1 = 0.0              # Signal y delayed by one sample
         self.error_dot = 0.0          # estimated derivative of error
         self.error_d1 = 0.0          # Error delayed by one sample
         self.integrator = 0.0
+        self.u_sat = 0.0
+        
 
         self.time_prev = rospy.Time.now()
 
@@ -48,17 +51,17 @@ class PIDControl:
 
         # PID Control
         if flag==True:
-            u_unsat = self.kp*error + self.ki*self.integrator + self.kd*self.error_dot
+            u_unsat =  + self.kp*error + self.ki*self.integrator + self.kd*self.error_dot
         else:
-            u_unsat = self.kp*error + self.ki*self.integrator - self.kd*self.y_dot
+            u_unsat =  + self.kp*error + self.ki*self.integrator - self.kd*self.y_dot
         # return saturated control signal
-        u_sat = self.saturate(u_unsat)
+        self.u_sat = self.saturate(u_unsat)
 
         # Anti-windup in the integrator
-        self.integratorAntiWindup(u_sat,u_unsat)
+        self.integratorAntiWindup(self.u_sat,u_unsat)
 
         
-        return u_sat + self.eq
+        return self.u_sat + self.eq
 
     def differentiateError(self, error):
         '''
@@ -86,3 +89,7 @@ class PIDControl:
             u = self.limit*np.sign(u)
         return u
 
+
+    def feedforward(self,y,y_r):
+        return 0
+        return (y_r-y)/(10*self.Ts)

@@ -121,7 +121,7 @@ class ball_tracking:
         #upper = np.array([255,int(30*255/100.0),int(40*255/100.0)])
         
         # Color filter for the green edge platform
-        lower = np.array([50,int(25*255/100.0),int(45*255/100.0)])
+        lower = np.array([50,int(25*255/100.0),int(35*255/100.0)])
         upper = np.array([100,int(50*255/100.0),int(65*255/100.0)])
 
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)

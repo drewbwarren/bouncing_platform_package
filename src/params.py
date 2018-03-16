@@ -16,7 +16,7 @@ ydot0 = 0.0
 # Simulation Parameters
 t_start = 0.0
 t_end = 20.0
-Ts = 0.01
+Ts = 0.0333
 t_plot = 0.1
 
 # Limits
@@ -39,9 +39,9 @@ wn = 2.2/tr
 #kp = 0.6 #.8 #(wn**2)/g
 #kd = 1 #.2 #(2*zeta*wn)/g
 
-kp = 0.4
-kd = 1.
-ki = 0.09
+kp = 0.0
+kd = 1.5
+ki = 0.0
 
 #kp = 0.2
 #kd = 0.8
