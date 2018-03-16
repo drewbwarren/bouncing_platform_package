@@ -1,5 +1,6 @@
 
-
+import numpy as np
+import control as cnt
 
 # System Parameters
 g = 9.81
@@ -50,3 +51,21 @@ ki = 0.09
 # Dirty Derivative Parameters
 sigma = 0.05  # cutoff freq for dirty derivative
 beta = (2*sigma - Ts)/(2*sigma + Ts)  # dirty derivative gain
+
+
+
+
+### State Space stuff
+A = np.array([[0,1],[0,0]])
+B = np.array([[0],[9.81]])
+C = np.array([[1,0],[0,0]])
+
+tr = 1
+zeta = .707
+wn = 2.2/tr
+
+des_poles = np.roots([1,2*zeta*wn,wn**2])
+K = cnt.acker(A,B,des_poles)
+kr = -1.0/(C[0]*np.linalg.inv(A-B*K)*B)
+kr = kr*10
+
