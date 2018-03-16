@@ -50,7 +50,7 @@ class ball_tracking:
         ######
 
         # Color filter for orange ping pong ball
-        lower = np.array([10,130,130])
+        lower = np.array([10,200,130])
         upper = np.array([100,255,255]) # 65 for darker lighting
         upper = np.array([30,255,255])
 

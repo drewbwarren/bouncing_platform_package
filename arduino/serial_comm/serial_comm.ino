@@ -84,8 +84,9 @@ void loop()
 
     pe[3] = Serial.parseFloat();
     pe[4] = Serial.parseFloat();
-    kinematics();
-//    Serial.println(data,DEC);
+//    kinematics();
+    Serial.println(pe[3],DEC);
+    Serial.println(pe[4],DEC);
 
 //    Serial.readBytesUntil(61,data_array,32);
 //    Serial.println(data_array);

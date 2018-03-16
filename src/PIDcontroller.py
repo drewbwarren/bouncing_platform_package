@@ -3,10 +3,11 @@ import numpy as np
 import rospy
 
 class PIDControl:
-    def __init__(self, kp, kd, ki, limit, beta, Ts):
+    def __init__(self, kp, kd, ki, eq, limit, beta, Ts):
         self.kp = kp                 # Proportional control gain
         self.kd = kd                 # Derivative control gain
         self.ki = ki
+        self.eq = eq
         self.limit = limit           # The output will saturate at this limit
         self.beta = beta             # gain for dirty derivative
         self.Ts = Ts                 # sample rate
@@ -57,7 +58,7 @@ class PIDControl:
         self.integratorAntiWindup(u_sat,u_unsat)
 
         
-        return u_sat
+        return u_sat + self.eq
 
     def differentiateError(self, error):
         '''

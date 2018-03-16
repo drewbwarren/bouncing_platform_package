@@ -27,7 +27,7 @@ servo_mult = multiplier to convert to milliseconds
 p = location of servo rotation points in base frame [x/y][1-6]
 re = location of attachment points in end eector frame [x/y][1-6]
 */
-const int servo_pin[] = {9,3, 5, 11, 6, 10}, servo_zero[6] = {1710, 1280, 1700, 1300, 1680, 1300};
+const int servo_pin[] = {9,3, 5, 11, 6, 10}, servo_zero[6] = {1519.30, 1470.70, 1509.30, 1490.70, 1489.30, 1490.70};
 /*
 servo_pin = servo pin assignments,
 servo_zero = zero angles for each servo (horizontal)
@@ -131,12 +131,14 @@ void kinematics()
   }
 }
 
+
 void limit_check()
 {
-  if(pe[3] > radians(5)) { pe[3] = radians(5); }
-  if(pe[4] > radians(5)) { pe[4] = radians(5); }
-  if(pe[3] < -radians(5)) { pe[3] = -radians(5); }
-  if(pe[4] < -radians(5)) { pe[4] = -radians(5); }
+  float limit = 8.5;
+  if(pe[3] > radians(5)) { pe[3] = radians(limit); }
+  if(pe[4] > radians(5)) { pe[4] = radians(limit); }
+  if(pe[3] < -radians(5)) { pe[3] = -radians(limit); }
+  if(pe[4] < -radians(5)) { pe[4] = -radians(limit); }
 }
 
 void recvWithStartEndMarkers() {
