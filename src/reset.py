@@ -7,8 +7,8 @@ class resetter:
 
     def __init__(self):
         ser = serial.Serial('/dev/ttyACM0',9600,timeout=10)
-        default_theta = 0.0
-        default_phi = 0.0
+        default_theta = -0.0*3.1415/180.0
+        default_phi = -0.0*3.1415/180.0
         theta = rospy.get_param("~theta",default_theta)
         phi = rospy.get_param("~phi",default_phi)
 

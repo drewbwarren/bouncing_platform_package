@@ -2,7 +2,7 @@
 
 const float pi = 3.14159, theta_r = radians(48.0), theta_p = radians(23.2), theta_s[] = {-pi/3,
 2*pi/3, pi, 0, pi/3, -2*pi/3},
-RD = 2.395, PD = 3.3, L1 = 1.00, L2 = 5.2813, z_home = 5.25, servo_min = -radians(80), servo_max = radians(80),
+RD = 2.395, PD = 3.3, L1 = 1.00, L2 = 5.2813, z_home = 5.0, servo_min = -radians(80), servo_max = radians(80),
 servo_mult = 400/(pi/4),
 p[2][6] = {{PD*cos(pi/6 + theta_p), PD*cos(pi/6 - theta_p), PD*cos(-(pi/2 - theta_p)),
 -PD*cos(-(pi/2 - theta_p)), -PD*cos(pi/6 - theta_p), -PD*cos(pi/6 + theta_p)},
@@ -27,7 +27,7 @@ servo_mult = multiplier to convert to milliseconds
 p = location of servo rotation points in base frame [x/y][1-6]
 re = location of attachment points in end eector frame [x/y][1-6]
 */
-const int servo_pin[] = {9,3, 5, 11, 6, 10}, servo_zero[6] = {1519.30, 1470.70, 1509.30, 1490.70, 1489.30, 1490.70};
+const int servo_pin[] = {9,3, 5, 11, 6, 10}, servo_zero[6] = {1519, 1471, 1509, 1491, 1489, 1491};
 /*
 servo_pin = servo pin assignments,
 servo_zero = zero angles for each servo (horizontal)
@@ -79,6 +79,7 @@ void loop()
 
   recvWithStartEndMarkers();
   showNewData();
+  limit_check();
   kinematics();
   
 }
@@ -115,6 +116,7 @@ void kinematics()
     if(i%2 == 1) servo_pos[i] = servo_zero[i] + theta_a[i]*servo_mult;
     else servo_pos[i] = servo_zero[i] - theta_a[i]*servo_mult;
   }
+
   
   for(int i = 0; i < 6; i++)
   {
