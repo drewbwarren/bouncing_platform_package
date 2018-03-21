@@ -79,6 +79,7 @@ void loop()
 
   recvWithStartEndMarkers();
   showNewData();
+  limit_check();
   kinematics();
   
 }

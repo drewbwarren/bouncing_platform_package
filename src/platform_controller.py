@@ -20,7 +20,6 @@ class platformController:
         self.xdot = 0
         self.ydot = 0
         self.K = P.K
-        self.kr = P.kr
         self.limit = P.theta_max
         self.time_prev = rospy.Time.now()
         self.Ts = P.Ts
@@ -45,10 +44,10 @@ class platformController:
         self.differentiate(x,y)
 
         xstate = np.matrix([[x],[self.xdot]])
-        ystate = np.matrix([[x],[self.ydot]])
+        ystate = np.matrix([[y],[self.ydot]])
 
-        theta_unsat = -self.K*xstate + self.kr*x_r
-        phi_unsat = -self.K*ystate + self.kr*y_r
+        theta_unsat = -self.K*(xstate - np.array([[x_r],[0]])) 
+        phi_unsat = -self.K*(ystate - np.array([[y_r],[0]])) 
         
         theta = self.saturate(theta_unsat)
         phi = self.saturate(phi_unsat)

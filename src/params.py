@@ -60,12 +60,13 @@ A = np.array([[0,1],[0,0]])
 B = np.array([[0],[9.81]])
 C = np.array([[1,0],[0,0]])
 
+Q = np.array([[10,0],[0,1]])
+R = np.array([[7]])
+
+
 tr = 1
 zeta = .707
 wn = 2.2/tr
 
 des_poles = np.roots([1,2*zeta*wn,wn**2])
-K = cnt.acker(A,B,des_poles)
-kr = -1.0/(C[0]*np.linalg.inv(A-B*K)*B)
-kr = kr*10
-
+K,S,E = cnt.lqr(A,B,Q,R)

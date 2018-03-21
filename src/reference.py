@@ -15,22 +15,31 @@ class signalGenerator:
         self.timer = rospy.Timer(rospy.Duration(.01),self.timercb)
         self.signal = self.square
         self.base_time = rospy.Time.now()
-        self.out = 0
+        self.ref = Reference_Pos()
 
 
     def timercb(self,event):
         self.square()
-        ref = Reference_Pos()
-        ref.x = 0 #self.out
-        ref.y = 0
-        self.pub.publish(ref)
+        #self.circle()
+        #self.zero()
+        self.pub.publish(self.ref)
 
     def square(self):
         t = (rospy.Time.now() - self.base_time).to_sec()
         if t % (1.0/self.frq) <= 0.5/self.frq:
-            self.out = self.amp + self.offset
+            self.ref.x = self.amp + self.offset
         else:
-            self.out = -self.amp + self.offset
+            self.ref.x = -self.amp + self.offset
+
+    def circle(self):
+        t = (rospy.Time.now() - self.base_time).to_sec()
+        self.ref.x = self.amp*np.cos(2*np.pi*t*self.frq)
+        self.ref.y = self.amp*np.sin(2*np.pi*t*self.frq)
+
+    def zero(self):
+        self.ref.x = 0
+        self.ref.y = 0
+
 
 if __name__ == '__main__':
 
