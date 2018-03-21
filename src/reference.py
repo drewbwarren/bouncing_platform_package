@@ -27,9 +27,10 @@ class signalGenerator:
     def square(self):
         t = (rospy.Time.now() - self.base_time).to_sec()
         if t % (1.0/self.frq) <= 0.5/self.frq:
-            self.out = self.amp + self.offset
+            out = self.amp + self.offset
         else:
-            self.out = -self.amp + self.offset
+            out = -self.amp + self.offset
+        self.ref.x = out
 
     def circle(self):
         t = (rospy.Time.now() - self.base_time).to_sec()
@@ -37,8 +38,8 @@ class signalGenerator:
         self.ref.y = self.amp*np.sin(2*np.pi*t*self.frq)
 
     def zero(self):
-        self.ref.x = 0
-        self.ref.y = 0
+        self.ref.x = 0.2
+        self.ref.y = -0.2
 
 if __name__ == '__main__':
 
