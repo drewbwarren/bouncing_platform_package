@@ -1,4 +1,6 @@
 bags
 *.pyc
 ball_tracker.launch
+/arduino/serial_comm
+/urdf
 

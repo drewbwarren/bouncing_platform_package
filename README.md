@@ -23,7 +23,8 @@ Several different branches contain several different stages of development for t
 * [ball_tracker.launch][bt] - This launches only the usb_cam node and the ball_tracker node.
 * [reset.launch][reset] - This will run only the reset node to move the platform back to the home position.
 
-
+### Arduino
+The code for the Arduino contains the kinematics for the platform and the serial protocol matching with serial_comm.py. It is contained in [`/arduino/serial_data_markers/serial_data_markers.ino`][ard].
 
 
 
@@ -40,4 +41,4 @@ Several different branches contain several different stages of development for t
 [ctrl]:https://github.com/drewbwarren/bouncing_platform_package/blob/master/launch/control.launch
 [bt]:https://github.com/drewbwarren/bouncing_platform_package/blob/master/launch/ball_tracker.launch
 [reset]:https://github.com/drewbwarren/bouncing_platform_package/blob/master/launch/reset.launch
-
+[ard]:https://github.com/drewbwarren/bouncing_platform_package/blob/master/arduino/serial_data_markers/serial_data_markers.ino
