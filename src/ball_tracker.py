@@ -6,6 +6,7 @@ from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import numpy as np
 from geometry_msgs.msg import Point
+from stewart_platform.msg import Reference_Pos
 
 class ball_tracking:
 
@@ -26,7 +27,15 @@ class ball_tracking:
         self.img_size = 300
         self.brd_size = .25
         self.pub = rospy.Publisher('/ball_position', Point, queue_size=1)
+        self.ref_sub = rospy.Subscriber('reference_position', Reference_Pos, self.ref_cb)
+        self.refx = 0
+        self.refy = 0
 
+    def ref_cb(self, data):
+        self.refx = data.x
+        self.refy = data.y
+        
+    
     def image_callback(self, data):
         try:
             cv_image = self.bridge.imgmsg_to_cv2(data,"bgr8")
@@ -58,16 +67,9 @@ class ball_tracking:
         #lower = np.array([50,0,int(80*255/100.0)])
         #upper = np.array([200,int(15*255/100.0),255])
 
-        # Color filter for black platform
-        #lower = np.array([0,0,0])
-        #upper = np.array([255,255,65])
 
         hsv = cv2.cvtColor(platform_img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, lower, upper)
-        # res = cv2.bitwise_and(cv_image,cv_image, mask=mask)
-
-        #erode = cv2.erode(mask, None, iterations=2)
-        #dilate = cv2.dilate(erode, None, iterations=2)
         _, contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         x_max = 0
@@ -82,26 +84,15 @@ class ball_tracking:
                 x_max = x_cir
                 y_max = y_cir
 
-        # some filtering
-
-#        self.filterx[1:10] = self.filterx[0:9]
-#        self.filterx[0] = x_max
-#        if np.abs(x_max - self.x) > 10 :
-#            self.x = np.mean(self.filterx[0:5])
-#        else:
-#            self.x = np.mean(self.filterx[0:8])
-#
-#        self.filtery[1:10] = self.filtery[0:9]
-#        self.filtery[0] = y_max
-#        if np.abs(y_max - self.y) > 10:
-#           self.y = np.mean(self.filtery[0:5])
-#        else:
-#            self.y = np.mean(self.filtery[0:8])
 
         self.x = x_max
         self.y = y_max
 
+        refx_img = (self.refx + self.brd_size)*self.img_size/self.brd_size - self.img_size/2
+        refy_img = -(self.refy - self.brd_size)*self.img_size/self.brd_size - self.img_size/2
+
         cv2.circle(platform_img, (int(self.x), int(self.y)), 5, [255,255,255], -1)
+        cv2.circle(platform_img, (int(refx_img),int(refy_img)), 4, [255,0,0],-1)
 
         cv2.imshow("Image window", platform_img)
         cv2.imshow("color separate",mask)

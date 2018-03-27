@@ -19,8 +19,8 @@ class signalGenerator:
 
 
     def timercb(self,event):
-        self.square()
-        #self.circle()
+        #self.square()
+        self.circle()
         #self.zero()
         self.pub.publish(self.ref)
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     rospy.init_node('reference')
 
-    sg = signalGenerator(.02,.1,0)
+    sg = signalGenerator(.04,.15,0)
 
     try:
         rospy.spin()

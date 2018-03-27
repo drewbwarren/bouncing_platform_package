@@ -60,8 +60,8 @@ A = np.array([[0,1],[0,0]])
 B = np.array([[0],[9.81]])
 C = np.array([[1,0],[0,0]])
 
-Q = np.array([[10,0],[0,1]])
-R = np.array([[7]])
+Q = np.array([[12,0],[0,1]])
+R = np.array([[10]])
 
 
 tr = 1
