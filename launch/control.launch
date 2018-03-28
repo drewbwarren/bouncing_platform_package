@@ -6,7 +6,7 @@
         <param name="camera_name" value="position_camera" />
     </node>
 
-    <node name="ball_position" pkg="stewart_platform" type="ball_tracker.py" />
+    <node name="ball_position" pkg="stewart_platform" type="ball_tracker.py" output="screen"/>
 
     <node name="controller" pkg="stewart_platform" type="platform_controller.py" output="screen" />
 
