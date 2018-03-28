@@ -64,7 +64,7 @@ class ball_tracking:
         upper = np.array([30,255,255])
 
         # Color filter for white ball
-        #lower = np.array([50,0,int(80*255/100.0)])
+        #lower = np.array([50,0,int(70*255/100.0)])
         #upper = np.array([200,int(15*255/100.0),255])
 
 
@@ -117,7 +117,7 @@ class ball_tracking:
 
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv,lower,upper)
-        cv2.imshow("mask",mask)
+        #cv2.imshow("mask",mask)
         # cv2.waitKey(1)
         _, contours, _ = cv2.findContours(mask, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -133,8 +133,9 @@ class ball_tracking:
             epsilon = 0.04*cv2.arcLength(cnt,True)
             approx = cv2.approxPolyDP(cnt,epsilon,True)
             approx = approx.tolist()
-
-            self.corner_filtering(approx)
+            #rospy.loginfo(len(approx)) 
+            if len(approx) == 4 or len(approx) == 8:
+                self.corner_filtering(approx)
 
             # This takes the corner_filter and reprojects the image
             pts1 = np.float32([self.corners[0],self.corners[1],self.corners[2],self.corners[3]])
@@ -155,11 +156,10 @@ class ball_tracking:
 
 
     def corner_filtering(self, pts):
-
         for i in range(len(self.corners)):
             self.corner_filter[i][1:10] = self.corner_filter[i][0:9]
             self.corner_filter[i][0] = pts[i][0]
-            if np.abs(pts[i][0][0] - self.corners[i][0]) > 10:
+            if np.abs(pts[i][0][0] - self.corners[i][0]) > 20:
                 self.corners[i][0] = int(np.mean([item[0] for item in self.corner_filter[i]][0:10]))
                 self.corners[i][1] = int(np.mean([item[1] for item in self.corner_filter[i]][0:10]))
                 self.corner_filter[i][0] = self.corners[i]
