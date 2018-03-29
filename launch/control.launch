@@ -12,5 +12,7 @@
 
     <node name="reference" pkg="stewart_platform" type="reference.py" />
 
+    <node name="joy_node" pkg="joy" type="joy_node" />
+
 </launch>
 
