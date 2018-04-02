@@ -26,7 +26,7 @@ class signalGenerator:
         self.joy = Joy()
         self.joy_sub = rospy.Subscriber('/joy', Joy, self.joy_cb)
         self.limit = .1
-        self.joy_scaler = .0001
+        self.joy_scaler = .001
 
     def timercb(self,event):
         self.signal[self.ind]()
@@ -52,8 +52,10 @@ class signalGenerator:
             self.ref.x = 0
             self.ref.y = 0
         else:
-            self.ref.x += -self.joy.axes[0]*self.joy_scaler
-            self.ref.y += self.joy.axes[1]*self.joy_scaler
+            if np.abs(self.joy.axes[0]) > .1:
+                self.ref.x += -self.joy.axes[0]*self.joy_scaler
+            if np.abs(self.joy.axes[1]) > .1:
+                self.ref.y += self.joy.axes[1]*self.joy_scaler
         
 
     def joy_cb(self,joy):
