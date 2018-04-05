@@ -52,7 +52,7 @@ class platformController:
         theta = self.saturate(theta_unsat)
         phi = self.saturate(phi_unsat)
 
-        return [theta, -phi]
+        return [theta, phi]
 
     def differentiate(self,x,y):
         self.xdot = self.beta*self.xdot + (1-self.beta)*((x - self.x_p)/self.Ts)
