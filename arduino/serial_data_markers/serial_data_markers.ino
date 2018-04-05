@@ -172,7 +172,7 @@ void recvWithStartEndMarkers() {
                 if (temp != 0.0)
                 {
                   if (rc == 't') { pe[4] = temp; }
-                  if (rc == 'p') { pe[3] = temp; }
+                  if (rc == 'p') { pe[3] = -temp; }
                   if (rc == 'z') { pe[2] = temp; }
                 }
             }

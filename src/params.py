@@ -56,17 +56,22 @@ beta = (2*sigma - Ts)/(2*sigma + Ts)  # dirty derivative gain
 
 
 ### State Space stuff
-A = np.array([[0,1],[0,0]])
-B = np.array([[0],[9.81]])
-C = np.array([[1,0],[0,0]])
+A = np.array([[0.0,1.0],[0.0,0.0]])
+B = np.array([[0.0],[9.81]])
 
-Q = np.array([[12,0],[0,1]])
-R = np.array([[10]])
+Q = np.array([[12.0,0.0],[0.0,1.0]])
+R = np.array([[10.0]])
 
+Q = np.array([[2000.0,0.0],[0.0,1.0]])
+R = np.array([[5.0]])
 
-tr = 1
-zeta = .707
-wn = 2.2/tr
+K,_,_ = cnt.lqr(A,B,Q,R)
 
-des_poles = np.roots([1,2*zeta*wn,wn**2])
-K,S,E = cnt.lqr(A,B,Q,R)
+C = np.array([[1.0,0.0]])
+Vd = np.eye(2)*1.0
+Vn = np.array([[0.01]])
+Kf,_,_ = cnt.lqr(A.T,C.T,Vd,Vn)
+Kf = Kf.T
+
+A = A - np.dot(Kf,C)
+B = np.concatenate((B,Kf),axis=1)

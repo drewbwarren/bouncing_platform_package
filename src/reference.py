@@ -21,7 +21,7 @@ class signalGenerator:
         self.ref.y = 0
 
         self.signal = [self.static, self.square, self.circle]
-        self.ind = 1
+        self.ind = 2
         
         self.joy = Joy()
         self.joy_sub = rospy.Subscriber('/joy', Joy, self.joy_cb)

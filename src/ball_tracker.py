@@ -95,7 +95,7 @@ class ball_tracking:
         cv2.circle(platform_img, (int(refx_img),int(refy_img)), 4, [255,0,0],-1)
 
         cv2.imshow("Image window", platform_img)
-        cv2.imshow("color separate",mask)
+        #cv2.imshow("color separate",mask)
         cv2.waitKey(1)
 
 
