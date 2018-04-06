@@ -24,7 +24,7 @@ class ball_tracking:
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]], \
             [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]
 
-        self.img_size = 300
+        self.img_size = 600
         self.brd_size = .25
         self.pub = rospy.Publisher('/ball_position', Point, queue_size=1)
         self.ref_sub = rospy.Subscriber('reference_position', Reference_Pos, self.ref_cb)
